@@ -57,30 +57,36 @@
     <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm sticky top-0 z-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-3">
             <div class="flex items-center gap-3">
-                <!-- ไอคอนบนหัวเว็บ มีจุดแจ้งเตือนงานค้างเหมือนไอคอนแอปจริง -->
+                <!-- ไอคอนจำลองแบบเดียวกับหน้าจอโฮม -->
                 <div class="relative">
-                    <div class="bg-sky-500 text-white p-2.5 rounded-xl shadow-sm transform transition hover:rotate-6 hover:scale-110">
+                    <div class="bg-sky-500 text-white p-2.5 rounded-2xl shadow-sm transform transition hover:scale-105">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
                     </div>
-                    <span id="header-app-badge" class="hidden absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-[11px] font-bold min-w-[20px] h-5 px-1 rounded-full items-center justify-center shadow-sm border-2 border-white">
+                    <!-- ป้ายวงกลมสีแดงเหมือนแอป LINE -->
+                    <span id="header-app-badge" class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold min-w-[22px] h-[22px] px-1.5 rounded-full items-center justify-center shadow-md border-2 border-white">
                         0
                     </span>
                 </div>
                 <div>
                     <h1 class="text-lg sm:text-xl font-semibold text-slate-800 leading-tight">ระบบติดตามงาน & เวลา</h1>
-                    <p class="text-xs text-slate-500">To-Do & Progress Tracker App</p>
+                    <p class="text-xs text-slate-500">To-Do & Progress Tracker</p>
                 </div>
             </div>
             
-            <div class="flex items-center gap-2 ml-auto">
+            <div class="flex flex-wrap items-center gap-2 ml-auto">
+                <!-- ปุ่มขอสิทธิ์เปิดแสดงตัวเลขบนไอคอนหน้าจอโฮม (จำเป็นสำหรับ iOS) -->
+                <button id="enable-badge-btn" onclick="requestBadgePermission()" class="bg-rose-50 hover:bg-rose-100 active:scale-95 text-rose-600 border border-rose-200 text-xs font-medium px-3 py-2 rounded-xl transition flex items-center gap-1.5 cursor-pointer">
+                    <span>🔔 เปิดเลขบนไอคอน</span>
+                </button>
+
                 <!-- ปุ่มติดตั้งแอป -->
                 <button id="install-app-btn" onclick="handleInstallClick()" class="bg-sky-50 hover:bg-sky-100 active:scale-95 text-sky-700 border border-sky-200 text-xs font-medium px-3 py-2 rounded-xl transition flex items-center gap-1.5 cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                     </svg>
-                    <span>ติดตั้งแอป</span>
+                    <span>วิธีติดตั้งแอป</span>
                 </button>
 
                 <!-- สรุปภาพรวมความคืบหน้า -->
@@ -170,22 +176,19 @@
             <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                 <h3 class="font-semibold text-slate-800 text-base flex items-center gap-2">
                     <span class="bg-sky-100 text-sky-600 p-1.5 rounded-lg">📱</span>
-                    วิธีติดตั้งแอปและแสดงเลขแจ้งเตือน
+                    วิธีทำให้ตัวเลขขึ้นบนไอคอนหน้าจอโฮม
                 </h3>
                 <button onclick="closeInstallModal()" class="text-slate-400 hover:text-slate-600 p-1 cursor-pointer">✕</button>
             </div>
             <div class="py-4 space-y-3 text-sm text-slate-600">
                 <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/70">
-                    <p class="font-semibold text-slate-800 mb-1">🍎 สำหรับ iPhone / iPad (iOS 16.4+)</p>
-                    <p>1. เปิดผ่าน Safari แล้วแตะปุ่ม <strong>แชร์ (Share)</strong> ด้านล่าง</p>
-                    <p>2. เลือก <strong>"เพิ่มไปยังหน้าจอโฮม" (Add to Home Screen)</strong></p>
-                    <p class="text-xs text-sky-700 mt-1.5">*หากต้องการให้แสดงเลขบนไอคอนแอปบน iOS ให้กดอนุญาตการแจ้งเตือนเมื่อเปิดแอปจากหน้าจอโฮม</p>
+                    <p class="font-semibold text-slate-800 mb-1">ขั้นตอนที่ 1: เพิ่มแอปลงหน้าจอโฮม</p>
+                    <p>• <strong>iPhone (Safari):</strong> กดปุ่มแชร์ ⬆️ > เลือก <strong>"เพิ่มไปยังหน้าจอโฮม"</strong></p>
+                    <p>• <strong>Android (Chrome):</strong> กดเมนู ⋮ > เลือก <strong>"ติดตั้งแอป / เพิ่มลงในหน้าจอหลัก"</strong></p>
                 </div>
-                <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/70">
-                    <p class="font-semibold text-slate-800 mb-1">🤖 สำหรับ Android (Chrome / Edge)</p>
-                    <p>1. แตะปุ่มเมนู <strong>จุด 3 จุด (⋮)</strong> มุมขวาบน</p>
-                    <p>2. เลือก <strong>"ติดตั้งแอป" (Install app)</strong></p>
-                    <p class="text-xs text-emerald-700 mt-1.5">*ตัวเลขงานค้างจะแสดงบนไอคอนแอปที่หน้าจอหลักโดยอัตโนมัติ</p>
+                <div class="bg-rose-50/70 p-3.5 rounded-xl border border-rose-200/70">
+                    <p class="font-semibold text-rose-900 mb-1">ขั้นตอนที่ 2: กดเปิดสิทธิ์แสดงตัวเลข</p>
+                    <p class="text-rose-800">เมื่อกดเข้าแอปจากไอคอนบนหน้าจอโฮมแล้ว ให้แตะปุ่ม <strong>"🔔 เปิดเลขบนไอคอน"</strong> ด้านบน แล้วกด <strong>"อนุญาต (Allow)"</strong> ตัวเลขสีแดงแบบแอป LINE จะแสดงขึ้นที่มุมไอคอนทันที!</p>
                 </div>
             </div>
             <button onclick="closeInstallModal()" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-medium py-2.5 rounded-xl transition cursor-pointer">
@@ -196,10 +199,10 @@
 
     <!-- Footer -->
     <footer class="text-center py-4 text-xs text-slate-400">
-        รองรับการแสดงจำนวนงานค้างบนไอคอนแอป (App Badging API) • บันทึกข้อมูลอัตโนมัติ
+        รองรับ Home Screen Icon Badge • บันทึกข้อมูลและเวลาในเครื่องอัตโนมัติ
     </footer>
 
-    <!-- JavaScript จัดการระบบทั้งหมด + PWA & App Badge Generator -->
+    <!-- JavaScript จัดการระบบทั้งหมด -->
     <script>
         const STORAGE_KEY = 'simple_todo_tracker_tasks_v1';
         let tasks = [];
@@ -208,22 +211,18 @@
         let isAnimatingAction = false;
         let deferredPrompt = null;
 
-        // ========================================================
-        // ส่วนที่ 1: ระบบวาดไอคอนแอป และอัปเดตตัวเลขแจ้งเตือน (App Badging)
-        // ========================================================
+        // วาดไอคอนแอป
         function generateAppIconDataUrl(badgeCount = 0) {
             const canvas = document.createElement('canvas');
             canvas.width = 512;
             canvas.height = 512;
             const ctx = canvas.getContext('2d');
 
-            // วาดพื้นหลังสีฟ้ากลมมน
             ctx.fillStyle = '#0ea5e9';
             ctx.beginPath();
             ctx.roundRect(0, 0, 512, 512, 115);
             ctx.fill();
 
-            // วาดเครื่องหมายถูกสีขาว
             ctx.strokeStyle = '#ffffff';
             ctx.lineWidth = 48;
             ctx.lineCap = 'round';
@@ -234,26 +233,22 @@
             ctx.lineTo(375, 175);
             ctx.stroke();
 
-            // หากมีจำนวนงานค้าง ให้วาดจุดวงกลมสีแดงพร้อมตัวเลขมุมขวาบน (สำหรับแสดงบน Favicon แท็บเว็บ)
             if (badgeCount > 0) {
                 const badgeText = badgeCount > 99 ? '99+' : String(badgeCount);
                 const centerX = 390;
                 const centerY = 122;
                 const radius = 105;
 
-                // ขอบสีขาวรอบวงกลมแดง
                 ctx.fillStyle = '#ffffff';
                 ctx.beginPath();
                 ctx.arc(centerX, centerY, radius + 12, 0, Math.PI * 2);
                 ctx.fill();
 
-                // วงกลมสีแดง
-                ctx.fillStyle = '#f43f5e';
+                ctx.fillStyle = '#ef4444';
                 ctx.beginPath();
                 ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
                 ctx.fill();
 
-                // ตัวเลขสีขาวตรงกลางวงกลม
                 ctx.fillStyle = '#ffffff';
                 ctx.font = `bold ${badgeCount > 9 ? '105px' : '125px'} sans-serif`;
                 ctx.textAlign = 'center';
@@ -287,14 +282,41 @@
             const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
             document.getElementById('app-manifest').href = URL.createObjectURL(manifestBlob);
 
-            if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-                document.getElementById('install-app-btn').classList.add('hidden');
+            checkBadgePermissionButton();
+        }
+
+        // ตรวจสอบว่าเคยอนุญาตสิทธิ์แสดงตัวเลขหรือยัง
+        function checkBadgePermissionButton() {
+            const btn = document.getElementById('enable-badge-btn');
+            if ('Notification' in window && Notification.permission === 'granted') {
+                btn.classList.add('hidden');
             }
         }
 
-        // ฟังก์ชันอัปเดตตัวเลขงานค้างบนไอคอนแอป (Home Screen Badge + Tab Favicon + Title)
+        // ฟังก์ชันขอสิทธิ์แสดงตัวเลขบนไอคอนหน้าจอโฮม (สำหรับ iPhone / Android)
+        async function requestBadgePermission() {
+            if (!('Notification' in window)) {
+                alert('ให้กด "เพิ่มไปยังหน้าจอโฮม (Add to Home Screen)" ก่อน แล้วเปิดแอปจากหน้าจอโฮมเพื่อเปิดใช้งานตัวเลขบนไอคอนครับ');
+                return;
+            }
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    checkBadgePermissionButton();
+                    const pendingCount = tasks.filter(t => t.status !== 'done').length;
+                    await updateAppBadge(pendingCount);
+                    alert('สำเร็จ! ระบบเปิดการแสดงตัวเลขงานค้างบนไอคอนแอปเรียบร้อยแล้ว');
+                } else {
+                    alert('กรุณากด "อนุญาต (Allow)" เพื่อให้ระบบแสดงตัวเลขมุมไอคอนแอปได้ครับ');
+                }
+            } catch (e) {
+                alert('กรุณาเปิดแอปจากไอคอนบนหน้าจอโฮมเพื่อตั้งค่าสิทธิ์ครับ');
+            }
+        }
+
+        // อัปเดตตัวเลขงานค้างบนไอคอนหน้าจอโฮม + แท็บเว็บ
         async function updateAppBadge(pendingCount) {
-            // 1. อัปเดตตัวเลขบนไอคอนแอปจริงของระบบปฏิบัติการ (Android / iOS / Windows / macOS PWA)
+            // 1. สั่งแสดงตัวเลขสีแดงบนไอคอนหน้าจอโฮมของมือถือ (เหมือนแอป LINE)
             if ('setAppBadge' in navigator) {
                 try {
                     if (pendingCount > 0) {
@@ -303,22 +325,22 @@
                         await navigator.clearAppBadge();
                     }
                 } catch (err) {
-                    // ข้ามกรณีเบราว์เซอร์จำกัดสิทธิ์ในโหมดไฟล์ออฟไลน์
+                    // ข้ามกรณีที่ยังไม่ได้กดอนุญาตสิทธิ์
                 }
             }
 
-            // 2. อัปเดตไอคอนบนแท็บเบราว์เซอร์ (Dynamic Favicon) ให้มีจุดแดงพร้อมตัวเลข
+            // 2. อัปเดตไอคอนบนแท็บเบราว์เซอร์
             const faviconEl = document.getElementById('app-favicon');
             if (faviconEl) {
                 faviconEl.href = generateAppIconDataUrl(pendingCount);
             }
 
-            // 3. อัปเดตชื่อแท็บของเว็บเหมือนแอปแชท เช่น "(3) To-Do & Timer App"
+            // 3. อัปเดตชื่อแท็บเว็บ
             document.title = pendingCount > 0 
                 ? `(${pendingCount}) To-Do & Timer App` 
                 : 'To-Do & Timer App';
 
-            // 4. อัปเดตจุดแดงจำลองบนไอคอนมุมซ้ายบนของหน้าเว็บ
+            // 4. อัปเดตป้ายตัวเลขสีแดงบนหัวเว็บ
             const headerBadge = document.getElementById('header-app-badge');
             if (headerBadge) {
                 if (pendingCount > 0) {
@@ -356,9 +378,6 @@
             modal.classList.remove('flex');
         }
 
-        // ========================================================
-        // ส่วนที่ 2: ระบบจัดการงานและตัวนับเวลา (To-Do & Timer)
-        // ========================================================
         function loadTasks() {
             const savedTasks = localStorage.getItem(STORAGE_KEY);
             if (savedTasks) {
@@ -621,7 +640,6 @@
             const inProgressTasks = tasks.filter(t => t.status === 'inprogress');
             const doneTasks = tasks.filter(t => t.status === 'done');
 
-            // คำนวณจำนวนงานที่ยังค้างอยู่ (สิ่งที่ต้องทำ + กำลังทำ)
             const pendingCount = todoTasks.length + inProgressTasks.length;
 
             todoList.innerHTML = todoTasks.length 
@@ -648,7 +666,6 @@
             document.getElementById('pending-count').textContent = pendingCount;
             document.getElementById('done-percent').textContent = `${percent}%`;
 
-            // เรียกอัปเดตตัวเลขบนไอคอนแอปทันทีที่ข้อมูลเปลี่ยน
             updateAppBadge(pendingCount);
         }
 
