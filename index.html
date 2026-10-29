@@ -57,10 +57,16 @@
     <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm sticky top-0 z-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-3">
             <div class="flex items-center gap-3">
-                <div class="bg-sky-500 text-white p-2.5 rounded-xl shadow-sm transform transition hover:rotate-6 hover:scale-110">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                <!-- ไอคอนบนหัวเว็บ มีจุดแจ้งเตือนงานค้างเหมือนไอคอนแอปจริง -->
+                <div class="relative">
+                    <div class="bg-sky-500 text-white p-2.5 rounded-xl shadow-sm transform transition hover:rotate-6 hover:scale-110">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <span id="header-app-badge" class="hidden absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-[11px] font-bold min-w-[20px] h-5 px-1 rounded-full items-center justify-center shadow-sm border-2 border-white">
+                        0
+                    </span>
                 </div>
                 <div>
                     <h1 class="text-lg sm:text-xl font-semibold text-slate-800 leading-tight">ระบบติดตามงาน & เวลา</h1>
@@ -69,7 +75,7 @@
             </div>
             
             <div class="flex items-center gap-2 ml-auto">
-                <!-- ปุ่มติดตั้งแอป (จะแสดงเมื่อสามารถติดตั้งได้ หรือกดเพื่อดูวิธีติดตั้งบนมือถือ) -->
+                <!-- ปุ่มติดตั้งแอป -->
                 <button id="install-app-btn" onclick="handleInstallClick()" class="bg-sky-50 hover:bg-sky-100 active:scale-95 text-sky-700 border border-sky-200 text-xs font-medium px-3 py-2 rounded-xl transition flex items-center gap-1.5 cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -79,7 +85,7 @@
 
                 <!-- สรุปภาพรวมความคืบหน้า -->
                 <div class="flex items-center gap-2.5 text-xs sm:text-sm bg-slate-100 px-3.5 py-2 rounded-xl border border-slate-200/60">
-                    <span class="text-slate-600">งาน: <strong id="total-count" class="text-slate-900 font-semibold">0</strong></span>
+                    <span class="text-rose-600">ค้างอยู่: <strong id="pending-count" class="font-semibold">0</strong></span>
                     <span class="text-slate-300">|</span>
                     <span class="text-emerald-600">
                         เสร็จ: <strong id="done-percent" class="font-semibold">0%</strong>
@@ -158,26 +164,28 @@
         </section>
     </main>
 
-    <!-- Modal แนะนำวิธีติดตั้งแอปบนมือถือ -->
+    <!-- Modal แนะนำวิธีติดตั้งแอปและเปิด Badge บนมือถือ -->
     <div id="install-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-5 shadow-xl border border-slate-100 animate__animated animate__zoomIn">
             <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                 <h3 class="font-semibold text-slate-800 text-base flex items-center gap-2">
                     <span class="bg-sky-100 text-sky-600 p-1.5 rounded-lg">📱</span>
-                    วิธีติดตั้งเป็นแอปบนมือถือ
+                    วิธีติดตั้งแอปและแสดงเลขแจ้งเตือน
                 </h3>
                 <button onclick="closeInstallModal()" class="text-slate-400 hover:text-slate-600 p-1 cursor-pointer">✕</button>
             </div>
             <div class="py-4 space-y-3 text-sm text-slate-600">
                 <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/70">
-                    <p class="font-semibold text-slate-800 mb-1">🍎 สำหรับ iPhone / iPad (เปิดด้วย Safari)</p>
-                    <p>1. แตะปุ่ม <strong>แชร์ (Share)</strong> <span class="inline-block bg-slate-200 px-1.5 py-0.5 rounded text-xs">⬆️</span> ด้านล่างหน้าจอ</p>
-                    <p>2. เลื่อนลงมาแล้วแตะ <strong>"เพิ่มไปยังหน้าจอโฮม" (Add to Home Screen)</strong></p>
+                    <p class="font-semibold text-slate-800 mb-1">🍎 สำหรับ iPhone / iPad (iOS 16.4+)</p>
+                    <p>1. เปิดผ่าน Safari แล้วแตะปุ่ม <strong>แชร์ (Share)</strong> ด้านล่าง</p>
+                    <p>2. เลือก <strong>"เพิ่มไปยังหน้าจอโฮม" (Add to Home Screen)</strong></p>
+                    <p class="text-xs text-sky-700 mt-1.5">*หากต้องการให้แสดงเลขบนไอคอนแอปบน iOS ให้กดอนุญาตการแจ้งเตือนเมื่อเปิดแอปจากหน้าจอโฮม</p>
                 </div>
                 <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/70">
-                    <p class="font-semibold text-slate-800 mb-1">🤖 สำหรับ Android (เปิดด้วย Chrome)</p>
+                    <p class="font-semibold text-slate-800 mb-1">🤖 สำหรับ Android (Chrome / Edge)</p>
                     <p>1. แตะปุ่มเมนู <strong>จุด 3 จุด (⋮)</strong> มุมขวาบน</p>
-                    <p>2. เลือก <strong>"ติดตั้งแอป" (Install app)</strong> หรือ <strong>"เพิ่มลงในหน้าจอหลัก"</strong></p>
+                    <p>2. เลือก <strong>"ติดตั้งแอป" (Install app)</strong></p>
+                    <p class="text-xs text-emerald-700 mt-1.5">*ตัวเลขงานค้างจะแสดงบนไอคอนแอปที่หน้าจอหลักโดยอัตโนมัติ</p>
                 </div>
             </div>
             <button onclick="closeInstallModal()" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-medium py-2.5 rounded-xl transition cursor-pointer">
@@ -188,10 +196,10 @@
 
     <!-- Footer -->
     <footer class="text-center py-4 text-xs text-slate-400">
-        รองรับการติดตั้งบนหน้าจอโฮม (PWA) • บันทึกข้อมูลในเครื่องอัตโนมัติ
+        รองรับการแสดงจำนวนงานค้างบนไอคอนแอป (App Badging API) • บันทึกข้อมูลอัตโนมัติ
     </footer>
 
-    <!-- JavaScript จัดการระบบทั้งหมด + PWA Generator -->
+    <!-- JavaScript จัดการระบบทั้งหมด + PWA & App Badge Generator -->
     <script>
         const STORAGE_KEY = 'simple_todo_tracker_tasks_v1';
         let tasks = [];
@@ -200,17 +208,16 @@
         let isAnimatingAction = false;
         let deferredPrompt = null;
 
-        // ==========================================
-        // ส่วนที่ 1: สร้างไอคอนและ PWA Manifest อัตโนมัติในไฟล์เดียว
-        // ==========================================
-        function setupSingleFilePWA() {
-            // วาดไอคอนแอปขนาด 512x512 ด้วย Canvas
+        // ========================================================
+        // ส่วนที่ 1: ระบบวาดไอคอนแอป และอัปเดตตัวเลขแจ้งเตือน (App Badging)
+        // ========================================================
+        function generateAppIconDataUrl(badgeCount = 0) {
             const canvas = document.createElement('canvas');
             canvas.width = 512;
             canvas.height = 512;
             const ctx = canvas.getContext('2d');
 
-            // พื้นหลังสีฟ้ากลมมน
+            // วาดพื้นหลังสีฟ้ากลมมน
             ctx.fillStyle = '#0ea5e9';
             ctx.beginPath();
             ctx.roundRect(0, 0, 512, 512, 115);
@@ -227,11 +234,41 @@
             ctx.lineTo(375, 175);
             ctx.stroke();
 
-            const iconDataUrl = canvas.toDataURL('image/png');
-            document.getElementById('app-favicon').href = iconDataUrl;
-            document.getElementById('apple-touch-icon').href = iconDataUrl;
+            // หากมีจำนวนงานค้าง ให้วาดจุดวงกลมสีแดงพร้อมตัวเลขมุมขวาบน (สำหรับแสดงบน Favicon แท็บเว็บ)
+            if (badgeCount > 0) {
+                const badgeText = badgeCount > 99 ? '99+' : String(badgeCount);
+                const centerX = 390;
+                const centerY = 122;
+                const radius = 105;
 
-            // สร้างไฟล์ manifest.json แบบจำลองด้วย Blob
+                // ขอบสีขาวรอบวงกลมแดง
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius + 12, 0, Math.PI * 2);
+                ctx.fill();
+
+                // วงกลมสีแดง
+                ctx.fillStyle = '#f43f5e';
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                // ตัวเลขสีขาวตรงกลางวงกลม
+                ctx.fillStyle = '#ffffff';
+                ctx.font = `bold ${badgeCount > 9 ? '105px' : '125px'} sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(badgeText, centerX, centerY + 6);
+            }
+
+            return canvas.toDataURL('image/png');
+        }
+
+        function setupSingleFilePWA() {
+            const cleanIconUrl = generateAppIconDataUrl(0);
+            document.getElementById('app-favicon').href = cleanIconUrl;
+            document.getElementById('apple-touch-icon').href = cleanIconUrl;
+
             const manifest = {
                 name: 'ระบบติดตามงาน & เวลา (To-Do Tracker)',
                 short_name: 'To-Do App',
@@ -242,21 +279,59 @@
                 theme_color: '#0ea5e9',
                 orientation: 'portrait-primary',
                 icons: [
-                    { src: iconDataUrl, sizes: '192x192', type: 'image/png' },
-                    { src: iconDataUrl, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
+                    { src: cleanIconUrl, sizes: '192x192', type: 'image/png' },
+                    { src: cleanIconUrl, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
                 ]
             };
 
             const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
             document.getElementById('app-manifest').href = URL.createObjectURL(manifestBlob);
 
-            // ซ่อนปุ่มติดตั้งหากเปิดใช้งานในโหมดแอปเต็มจออยู่แล้ว
             if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
                 document.getElementById('install-app-btn').classList.add('hidden');
             }
         }
 
-        // ดักจับ Event การติดตั้งของ Chrome/Android
+        // ฟังก์ชันอัปเดตตัวเลขงานค้างบนไอคอนแอป (Home Screen Badge + Tab Favicon + Title)
+        async function updateAppBadge(pendingCount) {
+            // 1. อัปเดตตัวเลขบนไอคอนแอปจริงของระบบปฏิบัติการ (Android / iOS / Windows / macOS PWA)
+            if ('setAppBadge' in navigator) {
+                try {
+                    if (pendingCount > 0) {
+                        await navigator.setAppBadge(pendingCount);
+                    } else {
+                        await navigator.clearAppBadge();
+                    }
+                } catch (err) {
+                    // ข้ามกรณีเบราว์เซอร์จำกัดสิทธิ์ในโหมดไฟล์ออฟไลน์
+                }
+            }
+
+            // 2. อัปเดตไอคอนบนแท็บเบราว์เซอร์ (Dynamic Favicon) ให้มีจุดแดงพร้อมตัวเลข
+            const faviconEl = document.getElementById('app-favicon');
+            if (faviconEl) {
+                faviconEl.href = generateAppIconDataUrl(pendingCount);
+            }
+
+            // 3. อัปเดตชื่อแท็บของเว็บเหมือนแอปแชท เช่น "(3) To-Do & Timer App"
+            document.title = pendingCount > 0 
+                ? `(${pendingCount}) To-Do & Timer App` 
+                : 'To-Do & Timer App';
+
+            // 4. อัปเดตจุดแดงจำลองบนไอคอนมุมซ้ายบนของหน้าเว็บ
+            const headerBadge = document.getElementById('header-app-badge');
+            if (headerBadge) {
+                if (pendingCount > 0) {
+                    headerBadge.textContent = pendingCount > 99 ? '99+' : pendingCount;
+                    headerBadge.classList.remove('hidden');
+                    headerBadge.classList.add('flex');
+                } else {
+                    headerBadge.classList.add('hidden');
+                    headerBadge.classList.remove('flex');
+                }
+            }
+        }
+
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
@@ -281,9 +356,9 @@
             modal.classList.remove('flex');
         }
 
-        // ==========================================
+        // ========================================================
         // ส่วนที่ 2: ระบบจัดการงานและตัวนับเวลา (To-Do & Timer)
-        // ==========================================
+        // ========================================================
         function loadTasks() {
             const savedTasks = localStorage.getItem(STORAGE_KEY);
             if (savedTasks) {
@@ -546,6 +621,9 @@
             const inProgressTasks = tasks.filter(t => t.status === 'inprogress');
             const doneTasks = tasks.filter(t => t.status === 'done');
 
+            // คำนวณจำนวนงานที่ยังค้างอยู่ (สิ่งที่ต้องทำ + กำลังทำ)
+            const pendingCount = todoTasks.length + inProgressTasks.length;
+
             todoList.innerHTML = todoTasks.length 
                 ? todoTasks.map(createTaskCard).join('') 
                 : renderEmptyState('ยังไม่มีรายการสิ่งที่ต้องทำ');
@@ -567,8 +645,11 @@
 
             const total = tasks.length;
             const percent = total > 0 ? Math.round((doneTasks.length / total) * 100) : 0;
-            document.getElementById('total-count').textContent = total;
+            document.getElementById('pending-count').textContent = pendingCount;
             document.getElementById('done-percent').textContent = `${percent}%`;
+
+            // เรียกอัปเดตตัวเลขบนไอคอนแอปทันทีที่ข้อมูลเปลี่ยน
+            updateAppBadge(pendingCount);
         }
 
         function updateLiveTimers() {
@@ -589,7 +670,7 @@
             if (input.value.trim() !== '') {
                 addTask(input.value);
                 input.value = '';
-                input.blur(); // ซ่อนคีย์บอร์ดบนมือถือหลังกดเพิ่มงานเสร็จ
+                input.blur();
             }
         });
 
